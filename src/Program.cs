@@ -1,88 +1,62 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Reflection;
-using Lynxware;
 using Microsoft.Win32;
+using Lynxware;
 
-namespace WallpaperChanger
+class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+
+        // Folder path where the image will be saved
+        string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lynxware");
+
+        // Create the directory if it doesn't exist
+        Directory.CreateDirectory(folderPath);
+
+        // File path for the downloaded image
+        string imagePath = Path.Combine(folderPath, "downloaded_image.jpg");
+
+        try
         {
-            // Check if the program is already added to startup
-            if (!IsStartupEnabled())
-            {
-                // Add the program to startup
-                AddToStartup();
-            }
-
             // Download the image
-            string imagePath = DownloadImage(Dependencies.imageUrl);
+            DownloadImage(Dependencies.imageUrl, imagePath);
 
-            // Set the image as desktop background
+            // Set the wallpaper
             SetWallpaper(imagePath);
 
-            Console.WriteLine("Wallpaper changed successfully.");
-            Console.ReadLine();
+            Console.WriteLine("Wallpaper set successfully.");
         }
-
-        static string DownloadImage(string imageUrl)
+        catch (Exception ex)
         {
-            // Create a temporary file path for the downloaded image
-            string imagePath = Path.Combine(Path.GetTempPath(), "wallpaper.jpg");
-
-            // Download the image from the URL
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFile(imageUrl, imagePath);
-            }
-
-            return imagePath;
+            Console.WriteLine($"An error occurred: {ex.Message}");
         }
-
-        static void SetWallpaper(string imagePath)
-        {
-            // Set the desktop background
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
-            key.SetValue("Wallpaper", imagePath);
-            key.Close();
-
-            // Trigger a change in the desktop background
-            SystemParametersInfo(0x0014, 0, imagePath, 0x0001 | 0x0002);
-        }
-
-        static void AddToStartup()
-        {
-            try
-            {
-                string executablePath = Assembly.GetExecutingAssembly().Location;
-                string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-                string shortcutPath = Path.Combine(startupFolderPath, "WallpaperChanger.lnk");
-
-                // Create a shortcut to the application executable
-                IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
-                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
-                shortcut.TargetPath = executablePath;
-                shortcut.Save();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to add to startup: " + ex.Message);
-            }
-        }
-
-        static bool IsStartupEnabled()
-        {
-            string executablePath = Assembly.GetExecutingAssembly().Location;
-            string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string shortcutPath = Path.Combine(startupFolderPath, "WallpaperChanger.lnk");
-
-            return File.Exists(shortcutPath);
-        }
-
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
-        private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
     }
+
+    static void DownloadImage(string url, string filePath)
+    {
+        using (var client = new WebClient())
+        {
+            client.DownloadFile(url, filePath);
+        }
+    }
+
+    static void SetWallpaper(string imagePath)
+    {
+        // Open the registry key for the wallpaper
+        RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+
+        // Set the wallpaper style to "Fill"
+        key.SetValue(@"WallpaperStyle", 10.ToString());
+        key.SetValue(@"TileWallpaper", 0.ToString());
+
+        // Set the wallpaper
+        SystemParametersInfo(0x0014, 0, imagePath, 0x0001 | 0x0002);
+    }
+
+    // Import the SystemParametersInfo function from user32.dll
+    [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+    private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 }
