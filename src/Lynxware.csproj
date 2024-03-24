@@ -3,8 +3,17 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationIcon>assets\Lynx_29_-_Outfit_-_Fortnite.ico</ApplicationIcon>
+    <Title>Lynxware</Title>
+    <Authors>Ace &amp; yorustic</Authors>
+    <Company>Lynxware</Company>
+    <Copyright>Lynxware</Copyright>
+    <AssemblyVersion>1</AssemblyVersion>
+    <FileVersion>1</FileVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +26,10 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\Lynx_29_-_Outfit_-_Fortnite.ico" />
   </ItemGroup>
 
 </Project>
