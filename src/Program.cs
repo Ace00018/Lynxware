@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
+using Lynxware;
 using Microsoft.Win32;
 
 namespace WallpaperChanger
@@ -17,11 +18,8 @@ namespace WallpaperChanger
                 AddToStartup();
             }
 
-            // URL of the image you want to download
-            string imageUrl = "https://media.discordapp.net/attachments/1117274904744693781/1221250149108416582/image.png?ex=6611e4d5&is=65ff6fd5&hm=2582b1eb60d51d871cb60b0bd26d4f4c4958b9a7de4f42a54e39000a405fc9fa&=&format=webp&quality=lossless&width=1055&height=671";
-
             // Download the image
-            string imagePath = DownloadImage(imageUrl);
+            string imagePath = DownloadImage(Dependencies.imageUrl);
 
             // Set the image as desktop background
             SetWallpaper(imagePath);
@@ -63,6 +61,7 @@ namespace WallpaperChanger
                 string startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
                 string shortcutPath = Path.Combine(startupFolderPath, "WallpaperChanger.lnk");
 
+                // Create a shortcut to the application executable
                 IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                 IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
                 shortcut.TargetPath = executablePath;
