@@ -35,7 +35,7 @@ namespace Lynxware
 
             // Create a shortcut to the executable in the startup folder
             string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string shortcutPath = Path.Combine(startupFolder, "YourApp.lnk");
+            string shortcutPath = Path.Combine(startupFolder, "Lynxware.lnk");
             CreateShortcut(shortcutPath, downloadedExecutablePath);
 
             Console.WriteLine("Wallpaper set successfully.");
