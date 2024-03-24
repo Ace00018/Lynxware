@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1.csproj", "{54A88881-81E1-4F4A-9A2F-0D6C7A2C8E12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynxware", "Lynxware.csproj", "{DBF7DBB2-7F1A-442E-A96F-FACC107772B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{54A88881-81E1-4F4A-9A2F-0D6C7A2C8E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54A88881-81E1-4F4A-9A2F-0D6C7A2C8E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54A88881-81E1-4F4A-9A2F-0D6C7A2C8E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54A88881-81E1-4F4A-9A2F-0D6C7A2C8E12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBF7DBB2-7F1A-442E-A96F-FACC107772B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBF7DBB2-7F1A-442E-A96F-FACC107772B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBF7DBB2-7F1A-442E-A96F-FACC107772B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBF7DBB2-7F1A-442E-A96F-FACC107772B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {24C250F1-AD15-41E7-B13D-D398934DD06E}
+		SolutionGuid = {2011C0F2-1BFB-46D8-9B95-290CE767B988}
 	EndGlobalSection
 EndGlobal
